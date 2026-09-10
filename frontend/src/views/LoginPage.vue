@@ -1,455 +1,427 @@
-<script setup lang="ts">
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
-
-const email = ref('')
-const password = ref('')
-const showPassword = ref(false)
-const error = ref('')
-const loading = ref(false)
-
-const login = async () => {
-    error.value = ''
-
-    if (!email.value || !password.value) {
-        error.value = 'Заполните все поля'
-        return
-    }
-
-    loading.value = true
-
-    try {
-        // сюда подключишь свой axios запрос авторизации
-        // const response = await axios.post('http://localhost:5178/auth/login', {
-        //     email: email.value,
-        //     password: password.value
-        // })
-        // localStorage.setItem('token', response.data.token)
-
-        router.push('/')
-    } catch (err) {
-        console.error(err)
-        error.value = 'Неверный email или пароль'
-    } finally {
-        loading.value = false
-    }
-}
-
-const goRegister = () => {
-    router.push('/register')
-}
-
-const goHome = () => {
-    router.push('/')
-}
-</script>
-
 <template>
     <div class="auth-page">
-        <div class="auth-background"></div>
-
-        <header class="auth-header">
-            <button class="logo" @click="goHome">
-                <span class="logo-mark">➤</span>
-                <span class="logo-name">HEADMAN</span>
-                <span class="logo-subtitle">СТИЛЬ · УХОД · СТРИЖКИ</span>
-            </button>
+        <header class="header">
+            <div class="container header__inner">
+                <a href="#" class="logo">
+                    <span class="logo__main">HEADMAN</span>
+                    <span class="logo__sub">STUDIO</span>
+                </a>
+                <a href="#" class="back-link">← Вернуться на сайт</a>
+            </div>
         </header>
-
-        <main class="auth-main">
-            <section class="auth-card">
-                <div class="auth-heading">
-                    <span class="eyebrow">HEADMAN</span>
-                    <h1>С возвращением</h1>
-                    <p>Войдите в аккаунт, чтобы продолжить.</p>
+        <main class="auth">
+            <div class="auth__decor auth__decor--left"></div>
+            <div class="auth__decor auth__decor--right"></div>
+            <div class="auth-card">
+                <div class="auth-card__heading">
+                    <div class="eyebrow">HEADMAN STUDIO</div>
+                    <h1>Войти в аккаунт</h1>
+                    <p>
+                        Войдите в личный кабинет,<br />
+                        чтобы продолжить.
+                    </p>
                 </div>
-
-                <form class="auth-form" @submit.prevent="login">
+                <form class="auth-form">
                     <div class="field">
-                        <label for="email">Email</label>
-                        <input
-                            id="email"
-                            v-model="email"
-                            type="email"
-                            placeholder="example@mail.com"
-                            autocomplete="email"
-                        >
+                        <label for="email">Электронная почта</label>
+                        <input id="email" type="email" placeholder="your@email.com" />
                     </div>
-
                     <div class="field">
-                        <div class="field-top">
+                        <div class="field__label">
                             <label for="password">Пароль</label>
-                            <button type="button" class="forgot">
-                                Забыли пароль?
-                            </button>
+                            <a href="#" class="forgot">Забыли пароль?</a>
                         </div>
-
-                        <div class="password-field">
-                            <input
-                                id="password"
-                                v-model="password"
-                                :type="showPassword ? 'text' : 'password'"
-                                placeholder="Введите пароль"
-                                autocomplete="current-password"
-                            >
-
-                            <button
-                                type="button"
-                                class="password-toggle"
-                                @click="showPassword = !showPassword"
-                            >
-                                {{ showPassword ? 'Скрыть' : 'Показать' }}
-                            </button>
-                        </div>
+                        <input id="password" type="password" placeholder="Введите пароль" />
                     </div>
-
-                    <div v-if="error" class="error">
-                        {{ error }}
-                    </div>
-
-                    <button
-                        class="submit-button"
-                        type="submit"
-                        :disabled="loading"
-                    >
-                        {{ loading ? 'Вход...' : 'Войти' }}
-                    </button>
+                    <label class="checkbox">
+                        <input type="checkbox" />
+                        <span class="checkbox__mark"></span>
+                        <span>Запомнить меня</span>
+                    </label>
+                    <button type="submit" class="btn btn--gold">Войти</button>
                 </form>
-
-                <div class="auth-divider">
+                <div class="divider">
                     <span>или</span>
                 </div>
-
-                <div class="auth-bottom">
-                    <span>Ещё нет аккаунта?</span>
-                    <button type="button" @click="goRegister">
-                        Создать аккаунт
+                <div class="social-auth">
+                    <button type="button" class="social-btn">
+                        <span class="social-btn__icon">VK</span>
+                        Войти через VK
+                    </button>
+                    <button type="button" class="social-btn">
+                        <span class="social-btn__icon">◎</span>
+                        Войти через Telegram
                     </button>
                 </div>
-            </section>
+                <div class="auth-card__footer">
+                    <span>Нет аккаунта?</span>
+                    <a href="#">Зарегистрироваться</a>
+                </div>
+            </div>
         </main>
+        <footer class="footer">
+            <span>© 2026 HEADMAN STUDIO</span>
+            <span>Все права защищены.</span>
+        </footer>
     </div>
 </template>
 
+<script setup lang="ts">
+
+</script>
+
 <style scoped>
-* {
-    box-sizing: border-box;
+@import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap');
+:global(*){
+    box-sizing:border-box;
 }
-
-.auth-page {
-    min-height: 100vh;
-    width: 100%;
-    position: relative;
-    overflow: hidden;
-    background: #f7f5ef;
-    color: #243126;
-    font-family: Arial, Helvetica, sans-serif;
+:global(html){
+    scroll-behavior:smooth;
 }
-
-.auth-background {
-    position: absolute;
-    width: 520px;
-    height: 520px;
-    top: -250px;
-    right: -150px;
-    border-radius: 50%;
-    background: rgba(108, 125, 91, 0.08);
-    filter: blur(2px);
+:global(body){
+    margin:0;
+    background:#14120e;
+    color:#f2ead9;
+    font-family:'Manrope',sans-serif;
+    font-size:16px;
 }
-
-.auth-header {
-    position: relative;
-    z-index: 2;
-    width: 100%;
-    padding: 30px 52px;
+:global(a){
+    color:inherit;
+    text-decoration:none;
 }
-
-.logo {
-    border: 0;
-    background: transparent;
-    padding: 0;
-    cursor: pointer;
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    height: 46px;
-    color: #202321;
+:global(button),
+:global(input){
+    font:inherit;
 }
-
-.logo-mark {
-    font-size: 27px;
-    margin-right: 9px;
-    transform: rotate(-25deg);
-    display: inline-block;
+.auth-page{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    background:#14120e;
+    overflow:hidden;
 }
-
-.logo-name {
-    font-size: 30px;
-    font-weight: 500;
-    letter-spacing: -1.5px;
-    line-height: 1;
+.container{
+    width:min(calc(100% - 80px),1440px);
+    margin:0 auto;
 }
-
-.logo-subtitle {
-    position: absolute;
-    left: 58px;
-    bottom: -2px;
-    white-space: nowrap;
-    font-size: 8px;
-    letter-spacing: 2px;
-    color: #70756d;
+.header{
+    height:90px;
+    flex-shrink:0;
+    border-bottom:1px solid rgba(220,185,116,0.18);
+    background:rgba(20,18,14,0.96);
 }
-
-.auth-main {
-    position: relative;
-    z-index: 1;
-    min-height: calc(100vh - 106px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 30px 24px 70px;
+.header__inner{
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
 }
-
-.auth-card {
-    width: 100%;
-    max-width: 490px;
-    padding: 48px 50px 42px;
-    background: rgba(255, 254, 250, 0.94);
-    border: 1px solid #ddd9ce;
-    border-radius: 18px;
-    box-shadow: 0 20px 60px rgba(45, 48, 41, 0.07);
-    animation: cardIn 0.55s ease both;
+.logo{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    line-height:1;
+    min-width:150px;
 }
-
-.auth-heading {
-    margin-bottom: 34px;
+.logo__main{
+    font-family:'Big Shoulders Display',sans-serif;
+    font-size:34px;
+    letter-spacing:5px;
+    color:#dcb974;
 }
-
-.eyebrow {
-    display: block;
-    margin-bottom: 12px;
-    color: #b56d50;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
+.logo__sub{
+    margin-top:5px;
+    font-size:11px;
+    letter-spacing:4px;
+    color:#f2ead9;
 }
-
-.auth-heading h1 {
-    margin: 0 0 10px;
-    font-size: 34px;
-    line-height: 1.1;
-    font-weight: 500;
-    letter-spacing: -1.3px;
-    color: #263127;
+.back-link{
+    color:rgba(242,234,217,0.6);
+    font-size:14px;
+    transition:color 0.25s ease;
 }
-
-.auth-heading p {
-    margin: 0;
-    color: #777c74;
-    font-size: 14px;
-    line-height: 1.6;
+.back-link:hover{
+    color:#dcb974;
 }
-
-.auth-form {
-    display: flex;
-    flex-direction: column;
-    gap: 22px;
+.auth{
+    flex:1;
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:70px 20px;
 }
-
-.field {
-    display: flex;
-    flex-direction: column;
-    gap: 9px;
+.auth__decor{
+    position:absolute;
+    width:280px;
+    height:280px;
+    border:1px solid rgba(220,185,116,0.08);
+    transform:rotate(45deg);
+    pointer-events:none;
 }
-
-.field label {
-    color: #30372f;
-    font-size: 13px;
-    font-weight: 600;
+.auth__decor::after{
+    content:'';
+    position:absolute;
+    inset:30px;
+    border:1px solid rgba(220,185,116,0.06);
 }
-
-.field-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.auth__decor--left{
+    left:-140px;
+    top:18%;
 }
-
-.forgot {
-    border: 0;
-    padding: 0;
-    background: transparent;
-    color: #68785b;
-    font-size: 12px;
-    cursor: pointer;
-    transition: color 0.2s ease;
+.auth__decor--right{
+    right:-140px;
+    bottom:12%;
 }
-
-.forgot:hover {
-    color: #b56d50;
+.auth-card{
+    position:relative;
+    z-index:1;
+    width:100%;
+    max-width:500px;
+    padding:54px 50px 46px;
+    border:1px solid rgba(220,185,116,0.2);
+    background:#1c1913;
+    box-shadow:0 30px 80px rgba(0,0,0,0.35);
 }
-
-.field input {
-    width: 100%;
-    height: 52px;
-    padding: 0 15px;
-    border: 1px solid #d8d4c9;
-    border-radius: 9px;
-    outline: none;
-    background: #fffdf9;
-    color: #293029;
-    font-family: inherit;
-    font-size: 14px;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+.auth-card::before{
+    content:'';
+    position:absolute;
+    left:-1px;
+    top:-1px;
+    bottom:-1px;
+    width:3px;
+    background:#dcb974;
 }
-
-.field input::placeholder {
-    color: #aaa9a2;
+.auth-card__heading{
+    text-align:center;
+    margin-bottom:38px;
 }
-
-.field input:focus {
-    border-color: #748264;
-    background: #fff;
-    box-shadow: 0 0 0 3px rgba(108, 125, 91, 0.1);
+.eyebrow{
+    margin-bottom:18px;
+    color:#dcb974;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:4px;
 }
-
-.password-field {
-    position: relative;
+.auth-card h1{
+    margin:0;
+    font-family:'Big Shoulders Display',sans-serif;
+    font-size:56px;
+    font-weight:400;
+    line-height:1;
+    letter-spacing:1px;
 }
-
-.password-field input {
-    padding-right: 85px;
+.auth-card__heading p{
+    margin:18px 0 0;
+    color:rgba(242,234,217,0.55);
+    font-size:15px;
+    line-height:1.7;
 }
-
-.password-toggle {
-    position: absolute;
-    right: 14px;
-    top: 50%;
-    transform: translateY(-50%);
-    border: 0;
-    background: transparent;
-    color: #68785b;
-    font-size: 11px;
-    cursor: pointer;
+.auth-form{
+    display:flex;
+    flex-direction:column;
+    gap:22px;
 }
-
-.error {
-    margin-top: -5px;
-    padding: 11px 13px;
-    border: 1px solid rgba(181, 109, 80, 0.25);
-    border-radius: 8px;
-    background: rgba(181, 109, 80, 0.07);
-    color: #a4583d;
-    font-size: 13px;
+.field{
+    display:flex;
+    flex-direction:column;
+    gap:9px;
 }
-
-.submit-button {
-    width: 100%;
-    height: 52px;
-    margin-top: 2px;
-    border: 0;
-    border-radius: 9px;
-    background: #69785b;
-    color: #fff;
-    font-family: inherit;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+.field__label{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
 }
-
-.submit-button:hover:not(:disabled) {
-    background: #5e6d51;
-    transform: translateY(-1px);
-    box-shadow: 0 8px 20px rgba(105, 120, 91, 0.18);
+.field label{
+    color:rgba(242,234,217,0.8);
+    font-size:13px;
+    font-weight:600;
 }
-
-.submit-button:active:not(:disabled) {
-    transform: translateY(0);
+.forgot{
+    color:#dcb974;
+    font-size:13px;
+    transition:opacity 0.2s ease;
 }
-
-.submit-button:disabled {
-    opacity: 0.65;
-    cursor: default;
+.forgot:hover{
+    opacity:0.7;
 }
-
-.auth-divider {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin: 30px 0 24px;
-    color: #aaa9a2;
-    font-size: 12px;
+.field input{
+    width:100%;
+    height:54px;
+    padding:0 18px;
+    border:1px solid rgba(220,185,116,0.18);
+    outline:none;
+    background:#14120e;
+    color:#f2ead9;
+    font-size:15px;
+    transition:border-color 0.25s ease,background 0.25s ease;
 }
-
-.auth-divider::before,
-.auth-divider::after {
-    content: '';
-    height: 1px;
-    flex: 1;
-    background: #e2ded4;
+.field input::placeholder{
+    color:rgba(242,234,217,0.3);
 }
-
-.auth-bottom {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 6px;
-    color: #777c74;
-    font-size: 13px;
+.field input:focus{
+    border-color:rgba(220,185,116,0.65);
+    background:#171410;
 }
-
-.auth-bottom button {
-    padding: 0;
-    border: 0;
-    background: transparent;
-    color: #68785b;
-    font-family: inherit;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: color 0.2s ease;
+.checkbox{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-top:-2px;
+    color:rgba(242,234,217,0.55);
+    font-size:14px;
+    cursor:pointer;
 }
-
-.auth-bottom button:hover {
-    color: #b56d50;
+.checkbox input{
+    display:none;
 }
-
-@keyframes cardIn {
-    from {
-        opacity: 0;
-        transform: translateY(18px);
+.checkbox__mark{
+    width:18px;
+    height:18px;
+    flex-shrink:0;
+    border:1px solid rgba(220,185,116,0.35);
+    background:#14120e;
+    transition:all 0.2s ease;
+}
+.checkbox input:checked + .checkbox__mark{
+    background:#dcb974;
+    box-shadow:inset 0 0 0 4px #14120e;
+}
+.btn{
+    width:100%;
+    height:54px;
+    border:0;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    font-size:14px;
+    font-weight:700;
+    letter-spacing:0.5px;
+    transition:all 0.25s ease;
+}
+.btn--gold{
+    background:#dcb974;
+    color:#14120e;
+}
+.btn--gold:hover{
+    background:#f2d18f;
+    transform:translateY(-2px);
+    box-shadow:0 12px 30px rgba(220,185,116,0.25);
+}
+.divider{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin:30px 0 22px;
+    color:rgba(242,234,217,0.35);
+    font-size:12px;
+}
+.divider::before,
+.divider::after{
+    content:'';
+    height:1px;
+    flex:1;
+    background:rgba(220,185,116,0.12);
+}
+.social-auth{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+.social-btn{
+    height:50px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    border:1px solid rgba(220,185,116,0.15);
+    background:transparent;
+    color:rgba(242,234,217,0.75);
+    cursor:pointer;
+    font-size:13px;
+    transition:all 0.25s ease;
+}
+.social-btn:hover{
+    border-color:rgba(220,185,116,0.4);
+    color:#dcb974;
+    background:rgba(220,185,116,0.05);
+}
+.social-btn__icon{
+    color:#dcb974;
+    font-size:13px;
+    font-weight:700;
+}
+.auth-card__footer{
+    display:flex;
+    justify-content:center;
+    gap:8px;
+    margin-top:30px;
+    color:rgba(242,234,217,0.45);
+    font-size:14px;
+}
+.auth-card__footer a{
+    color:#dcb974;
+}
+.auth-card__footer a:hover{
+    color:#f2d18f;
+}
+.footer{
+    min-height:75px;
+    padding:0 40px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:20px;
+    border-top:1px solid rgba(220,185,116,0.12);
+    color:rgba(242,234,217,0.35);
+    font-size:12px;
+    letter-spacing:0.5px;
+}
+@media (max-width:760px){
+    .container{
+        width:min(calc(100% - 32px),1440px);
     }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
+    .header{
+        height:76px;
+    }
+    .logo__main{
+        font-size:28px;
+    }
+    .back-link{
+        font-size:12px;
+    }
+    .auth{
+        padding:45px 16px;
+    }
+    .auth-card{
+        padding:44px 26px 36px;
+    }
+    .auth-card h1{
+        font-size:46px;
+    }
+    .social-auth{
+        grid-template-columns:1fr;
+    }
+    .footer{
+        padding:20px;
+        flex-direction:column;
+        gap:6px;
+    }
+    .auth__decor{
+        display:none;
     }
 }
-
-@media (max-width: 600px) {
-    .auth-header {
-        padding: 24px;
+@media (max-width:420px){
+    .auth-card{
+        padding:36px 22px 30px;
     }
-
-    .logo-name {
-        font-size: 26px;
+    .auth-card h1{
+        font-size:42px;
     }
-
-    .auth-main {
-        padding: 20px 16px 40px;
-        align-items: flex-start;
-    }
-
-    .auth-card {
-        padding: 34px 24px 30px;
-        border-radius: 14px;
-    }
-
-    .auth-heading h1 {
-        font-size: 29px;
+    .auth-card__footer{
+        flex-direction:column;
+        align-items:center;
     }
 }
 </style>
