@@ -16,7 +16,6 @@ export interface RegisterData{
 export const authApi={
     login:(data:LoginData)=>api.post('/auth/login',data),
     register:(data: RegisterData)=>api.post('/auth/register',data),
-    me:()=api.get('/auth/me'),
     logout:()=>{
         localStorage.removeItem('token')
         localStorage.removeItem('user')

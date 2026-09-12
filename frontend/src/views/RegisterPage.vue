@@ -21,22 +21,26 @@
                         к мастерам ещё быстрее.
                     </p>
                 </div>
-                <form class="auth-form">
+                <form class="auth-form" @submit.prevent="register()">
                     <div class="field">
-                        <label for="name">Имя</label>
-                        <input id="name" type="text" placeholder="Ваше имя" />
+                        <label for="firstName">Имя</label>
+                        <input id="firstName" type="text" v-model="firstName" placeholder="Ваше имя" />
+                    </div>
+                    <div class="field">
+                        <label for="lastName">Фамилия</label>
+                        <input id="lastName" type="text" v-model="lastName" placeholder="Ваша фамилия" />
                     </div>
                     <div class="field">
                         <label for="email">Электронная почта</label>
-                        <input id="email" type="text" placeholder="your@email.com" />
+                        <input id="email" type="text" v-model="email" placeholder="your@email.com" />
                     </div>
                     <div class="field">
                         <label for="phone">Номер телефона</label>
-                        <input id="phone" type="tel" placeholder="+7 (___) ___-__-__" />
+                        <input id="phone" type="tel" v-model="phone" placeholder="+7 (___) ___-__-__" />
                     </div>
                     <div class="field">
                         <label for="password">Пароль</label>
-                        <input id="password" type="password" placeholder="Придумайте пароль" />
+                        <input id="password" type="password" v-model="password" placeholder="Придумайте пароль" />
                     </div>
                     <label class="checkbox checkbox--terms">
                         <input type="checkbox" />
@@ -52,7 +56,7 @@
                 </form>
                 <div class="auth-card__footer">
                     <span>Уже есть аккаунт?</span>
-                    <a href="#">Войти</a>
+                    <a @click="router.push('/login')">Войти</a>
                 </div>
             </div>
         </main>
@@ -64,7 +68,37 @@
 </template>
 
 <script setup lang="ts">
+import {authApi} from '../api/auth'
+import {ref} from 'vue'
+import { useRouter } from 'vue-router'
 
+const router=useRouter()
+const firstName=ref('')
+const lastName=ref('')
+const email=ref('')
+const phone=ref('')
+const password=ref('')
+
+const register=async()=>{
+    try{
+        const response=await authApi.register({
+            firstName:firstName.value,
+            lastName:lastName.value,
+            email:email.value,
+            phone:phone.value,
+            password:password.value
+        })
+
+        localStorage.setItem('token',response.data.token)
+        localStorage.setItem('user',JSON.stringify(response.data.user))
+
+        alert('success')
+        router.push('/')
+    }catch(error){
+        console.error('register error')
+        return
+    }
+}
 </script>
 
 <style scoped>
@@ -85,6 +119,7 @@
 :global(a){
     color:inherit;
     text-decoration:none;
+    cursor:pointer;
 }
 :global(button),
 :global(input){

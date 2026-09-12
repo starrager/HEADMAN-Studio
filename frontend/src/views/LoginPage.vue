@@ -21,17 +21,17 @@
                         чтобы продолжить.
                     </p>
                 </div>
-                <form class="auth-form">
+                <form class="auth-form" @submit.prevent="login()"">
                     <div class="field">
                         <label for="email">Электронная почта</label>
-                        <input id="email" type="email" placeholder="your@email.com" />
+                        <input id="email" type="text" v-model="email" placeholder="your@email.com" />
                     </div>
                     <div class="field">
                         <div class="field__label">
                             <label for="password">Пароль</label>
                             <a href="#" class="forgot">Забыли пароль?</a>
                         </div>
-                        <input id="password" type="password" placeholder="Введите пароль" />
+                        <input id="password" type="password" v-model="password" placeholder="Введите пароль" />
                     </div>
                     <label class="checkbox">
                         <input type="checkbox" />
@@ -55,7 +55,7 @@
                 </div>
                 <div class="auth-card__footer">
                     <span>Нет аккаунта?</span>
-                    <a href="#">Зарегистрироваться</a>
+                    <a @click="router.push('/register')">Зарегистрироваться</a>
                 </div>
             </div>
         </main>
@@ -67,7 +67,32 @@
 </template>
 
 <script setup lang="ts">
+import {authApi} from '../api/auth'
+import {ref} from 'vue'
+import { useRouter } from 'vue-router'
 
+const router=useRouter()
+const email=ref('')
+const phone=ref('')
+const password=ref('')
+
+const login=async()=>{
+    try{
+        const response=await authApi.login({
+            email:email.value,
+            password:password.value
+        })
+
+        localStorage.setItem('token',response.data.token)
+        localStorage.setItem('user',JSON.stringify(response.data.user))
+
+        alert('success')
+        router.push('/')
+    }catch(error){
+        console.error('login error')
+        return
+    }
+}
 </script>
 
 <style scoped>
@@ -88,6 +113,7 @@
 :global(a){
     color:inherit;
     text-decoration:none;
+    cursor:pointer;
 }
 :global(button),
 :global(input){

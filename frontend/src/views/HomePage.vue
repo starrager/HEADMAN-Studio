@@ -14,7 +14,7 @@
                     <a href="#" class="nav__link">Контакты</a>
                 </nav>
                 <div class="header__actions">
-                    <a href="#" class="btn btn--outline">Записаться</a>
+                    <a @click="router.push('/register')" class="btn btn--outline">Записаться</a>
                     <button class="profile-btn" aria-label="Профиль">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
 
