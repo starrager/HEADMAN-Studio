@@ -3,10 +3,10 @@
         <header class="header">
             <div class="container header__inner">
                 <a href="#" class="logo">
-                    <span class="logo__main">HEADMAN</span>
-                    <span class="logo__sub">STUDIO</span>
+                    <span @click="router.push('/')" class="logo__main">HEADMAN</span>
+                    <span @click="router.push('/')" class="logo__sub">STUDIO</span>
                 </a>
-                <a href="#" class="back-link">← Вернуться на сайт</a>
+                <a @click="router.push('/')" class="back-link">← Вернуться на сайт</a>
             </div>
         </header>
         <main class="auth">
