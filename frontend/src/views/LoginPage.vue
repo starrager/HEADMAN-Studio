@@ -86,7 +86,6 @@ const login=async()=>{
         localStorage.setItem('token',response.data.token)
         localStorage.setItem('user',JSON.stringify(response.data.user))
 
-        alert('success')
         router.push('/')
     }catch(error){
         console.error('login error')

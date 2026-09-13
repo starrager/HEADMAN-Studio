@@ -1,64 +1,50 @@
 <template>
-    <div class="home-page">
-        <header class="header">
-            <div class="container header__inner">
-                <a href="#" class="logo">
-                    <span class="logo__main">HEADMAN</span>
-                    <span class="logo__sub">STUDIO</span>
-                </a>
-                <nav class="nav">
-                    <a href="#" class="nav__link nav__link--active">Главная</a>
-                    <a href="#" class="nav__link">Услуги</a>
-                    <a href="#" class="nav__link">Мастера</a>
-                    <a href="#" class="nav__link">О нас</a>
-                    <a href="#" class="nav__link">Контакты</a>
-                    <router-link v-if="auth" to="/profile" class="nav__link">Профиль</router-link>
-                    <a v-if="auth" @click="logout()" class="nav__link__exit">Выйти</a>
-                </nav>
-                <div class="header__actions">
-                    <router-link to="/login" class="btn btn--outline">Войти</router-link>
-                    <button class="profile-btn" aria-label="Профиль">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-
-                        </svg>
-                    </button>
-                </div>
-                <button class="mobile-menu" aria-label="Открыть меню">
-                    <span></span>
-                    <span></span>
-                    <span></span>
+    <header class="header">
+        <div class="container header__inner">
+            <a href="#" class="logo">
+                <router-link to="/"><span class="logo__main">HEADMAN</span></router-link>
+                <router-link to="/"><span class="logo__sub">STUDIO</span></router-link>
+            </a>
+            <nav class="nav">
+                <router-link to="/" class="nav__link nav__link--active">Главная</router-link>
+                <router-link to="/services" class="nav__link">Услуги</router-link>
+                <router-link to="/masters" class="nav__link">Мастера</router-link>
+                <router-link to="/aboutus" class="nav__link">О нас</router-link>
+                <router-link to="/contacts" class="nav__link">Контакты</router-link>
+                <router-link v-if="auth" to="/profile" class="nav__link">Профиль</router-link>
+                <a v-if="auth" @click="logout" class="nav__link--exit">Выйти</a>
+            </nav>
+            <div class="header__actions">
+                <router-link v-if="!auth" to="/login" class="btn btn--outline">Войти</router-link>
+                <button class="profile-btn" aria-label="Профиль">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <circle cx="12" cy="8" r="4" />
+                        <path d="M4 21c0-4.2 3.6-7 8-7s8 2.8 8 7" />
+                    </svg>
                 </button>
             </div>
-        </header>
-    </div>
+            <button class="mobile-menu" aria-label="Открыть меню">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
 </template>
 
 <script setup>
-import {useRouter} from 'vue-router';
 import {ref,onMounted} from 'vue'
 
-const router=useRouter()
 const auth=ref(false)
 
 const checkAuth=()=>{
-    try{
-        auth.value=!!localStorage.getItem('token')
-    }catch(error){
-        console.error(error)
-        return 
-    }
+    auth.value=!!localStorage.getItem('token')
 }
 
 const logout=()=>{
-    try{
-        localStorage.removeItem('token')
-        localStorage.removeItem('user')
-
-        checkAuth()
-    }catch(error){
-        console.error('error logout')
-        alert('error logout')
-    }
+    localStorage.removeItem('token')
+    localStorage.removeItem('user')
+    checkAuth()
 }
 
 onMounted(()=>{
@@ -67,18 +53,8 @@ onMounted(()=>{
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap');
 :global(*){
     box-sizing:border-box;
-}
-:global(html){
-    scroll-behavior:smooth;
-}
-:global(body){
-    margin:0;
-    background:#14120e;
-    color:#f2ead9;
-    font-family:'Manrope',sans-serif;
 }
 :global(a){
     color:inherit;
@@ -86,10 +62,6 @@ onMounted(()=>{
 }
 :global(button){
     font:inherit;
-}
-.home-page{
-    background:#14120e;
-    overflow:hidden;
 }
 .container{
     width:min(100% - 32px,1440px);
@@ -142,8 +114,8 @@ onMounted(()=>{
 .nav__link--exit{
     position:relative;
     padding:34px 0;
-    font-size:14px;
-    color:rgba(242,234,217,0.72);
+    font-size:15px;
+    color:rgba(211, 31, 31, 0.72);
     cursor:pointer;
     transition:color 0.25s ease;
 }
@@ -212,9 +184,6 @@ onMounted(()=>{
     background:#dcb974;
 }
 @media (max-width:760px){
-    .container{
-        width:min(100% - 32px,1440px);
-    }
     .header{
         height:76px;
     }

@@ -1,7 +1,6 @@
 <template>
     <Header/>
     <div class="services-page">
-        
         <section class="services-hero">
             <div class="container">
                 <div class="hero-label">HEADMAN STUDIO</div>
