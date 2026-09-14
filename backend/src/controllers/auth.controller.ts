@@ -54,3 +54,27 @@ export const login=async(req:Request,res:Response)=>{
         return res.status(500).json({error:'login error'})
     }
 }
+
+export const getProfile=async(req:Request,res:Response)=>{
+    try{
+        const userId=req.userId
+        const user=await prisma.user.findUnique({
+            where:{id:userId},
+            select:{
+                id:true,
+                email:true,
+                lastName:true,
+                firstName:true,
+                phone:true,
+                status:true
+            }
+        })
+
+        if(!userId)return res.status(404).json({error:'пользователь не найден'})
+
+        res.json(user)
+    }catch(error){
+        console.error(error)
+        res.status(500).json({error:'ошибка сервера'})
+    }
+}
