@@ -15,10 +15,10 @@
                             Премиальный сервис для настоящих мужчин.
                         </p>
                         <div class="hero__actions">
-                            <router-link to="/login" class="btn btn--gold">Записаться онлайн</router-link>
+                            <router-link to="/order" class="btn btn--gold">Записаться онлайн</router-link>
                             <a href="#" class="hero__link">
-                                Наши услуги
-                                <span>→</span>
+                                <router-link to="/services"><span>Наши услуги</span></router-link>
+                                <router-link to="/services"><span>→</span></router-link>
                             </a>
                         </div>
                     </div>
@@ -148,7 +148,7 @@
                             <h2>Готов к новому образу?</h2>
                             <p>Выбери удобное время и запишись онлайн</p>
                         </div>
-                        <router-link to="/login" class="btn btn--gold">Записаться</router-link>
+                        <router-link to="/order" class="btn btn--gold">Записаться</router-link>
                     </div>
                 </div>
             </section>

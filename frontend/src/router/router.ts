@@ -7,6 +7,7 @@ import MastersPage from '@/views/MastersPage.vue'
 import AboutPage from '@/views/AboutPage.vue'
 import ContactsPage from '@/views/ContactsPage.vue'
 import ProfilePage from '@/views/ProfilePage.vue'
+import OrderPage from '@/views/OrderPage.vue'
 
 const router=createRouter({
     history:createWebHistory(import.meta.env.BASE_URL),
@@ -42,6 +43,10 @@ const router=createRouter({
         {
             path:'/profile',
             component:ProfilePage
+        },
+        {
+            path:'/order',
+            component:OrderPage
         }
     ],
 })

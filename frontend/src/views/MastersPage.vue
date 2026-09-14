@@ -169,8 +169,8 @@
                             </h2>
                         </div>
                         <button class="master-booking__button">
-                            ЗАПИСАТЬСЯ
-                            <span>→</span>
+                            <router-link to="/order"><span>ЗАПИСАТЬСЯ</span></router-link>
+                            <router-link to="/order"><span>↗</span></router-link>
                         </button>
                     </div>
                 </div>

@@ -127,10 +127,10 @@
                         НАЙДИ СВОЙ<br />
                         <em>СТИЛЬ</em>
                     </h2>
-                    <router-link to="/login" class="about-cta__button">
-                        ЗАПИСАТЬСЯ
-                        <span>→</span>
-                    </router-link>
+                    <div class="about-cta__button">
+                        <router-link to="/order"><span>ЗАПИСАТЬСЯ</span></router-link>
+                        <router-link to="/order"><span>↗</span></router-link>
+                    </div>
                 </div>
             </section>
         </main>

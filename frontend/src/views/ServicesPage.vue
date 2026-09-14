@@ -429,8 +429,8 @@
                         </h2>
                         <p>Выбери услугу и запишись к своему мастеру.</p>
                         <a href="#" class="cta-button">
-                            ЗАПИСАТЬСЯ
-                            <span>↗</span>
+                            <router-link to="/order"><span>ЗАПИСАТЬСЯ</span></router-link>
+                            <router-link to="/order"><span>↗</span></router-link>
                         </a>
                     </div>
                 </section>
