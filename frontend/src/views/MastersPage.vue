@@ -1,7 +1,7 @@
 <template>
     <div class="master-page">
         <Header />
-        <main>
+        <main v-if="master">
             <section class="master-hero">
                 <div class="container master-hero__inner">
                     <div class="master-hero__content">
@@ -9,16 +9,15 @@
                             <span></span>
                             МАСТЕР HEADMAN STUDIO
                         </div>
-                        <h1>АЛЕКСЕЙ<br /><em>ВОЛКОВ</em></h1>
-                        <p class="master-hero__role">ТОП-МАСТЕР / БАРБЕР</p>
-                        <p class="master-hero__description">
-                            Создаю индивидуальный стиль, который подчёркивает характер
-                            каждого клиента. Специализируюсь на классических и современных
-                            мужских стрижках, моделировании бороды и создании полного образа.
-                        </p>
+                        <h1>
+                            {{ master.user?.firstName?.toUpperCase() }}<br />
+                            <em>{{ master.user?.lastName?.toUpperCase() }}</em>
+                        </h1>
+                        <p class="master-hero__role">{{ master.specialization }}</p>
+                        <p class="master-hero__description">{{ master.bio }}</p>
                         <div class="master-hero__stats">
                             <div class="stat">
-                                <strong>8+</strong>
+                                <strong>{{ master.experienceYears }}+</strong>
                                 <span>ЛЕТ ОПЫТА</span>
                             </div>
                             <div class="stat">
@@ -32,7 +31,7 @@
                         </div>
                     </div>
                     <div class="master-hero__photo">
-                        <img src="../assets/master-1.jpg" alt="Алексей Волков" />
+                        <img src="../assets/master-1.jpg" :alt="master.user?.firstName" />
                         <div class="master-hero__photo-frame"></div>
                         <div class="master-hero__number">01</div>
                     </div>
@@ -54,10 +53,11 @@
                                 Это часть образа человека.
                             </p>
                             <p>
-                                Алексей работает в индустрии мужского ухода более 8 лет.
-                                За это время он сформировал собственный подход к работе:
-                                внимательно изучает особенности внешности клиента и подбирает
-                                форму, которая будет выглядеть органично и без сложной укладки.
+                                {{ master.user?.firstName }} работает в индустрии мужского ухода
+                                более {{ master.experienceYears }} лет. За это время он сформировал
+                                собственный подход к работе: внимательно изучает особенности внешности
+                                клиента и подбирает форму, которая будет выглядеть органично
+                                и без сложной укладки.
                             </p>
                             <p>
                                 В работе сочетает классические техники барберинга
@@ -73,7 +73,7 @@
                             </div>
                         </div>
                         <div class="about-master__photo">
-                            <img src="../assets/master-1.jpg" alt="Алексей Волков" />
+                            <img src="../assets/master-1.jpg" :alt="master.user?.firstName" />
                             <span>02</span>
                         </div>
                     </div>
@@ -168,14 +168,15 @@
                                 <em>К НОВОМУ ОБРАЗУ?</em>
                             </h2>
                         </div>
-                        <button class="master-booking__button">
-                            <router-link to="/order"><span>ЗАПИСАТЬСЯ</span></router-link>
-                            <router-link to="/order"><span>↗</span></router-link>
-                        </button>
+                        <router-link :to="`/order?master=${master.id}`" class="master-booking__button">
+                            ЗАПИСАТЬСЯ
+                            <span>↗</span>
+                        </router-link>
                     </div>
                 </div>
             </section>
         </main>
+        <div v-else-if="store.loading" class="loading">Загрузка...</div>
         <footer class="footer">
             <div class="container footer__inner">
                 <div class="footer__brand">
@@ -191,6 +192,15 @@
 
 <script setup>
 import Header from '@/components/Header.vue'
+import { computed,onMounted } from 'vue';
+import { useMastersStore } from '@/stores/masters';
+
+const store=useMastersStore()
+const master=computed(()=>store.masters[0])
+
+onMounted(()=>{
+    store.fetchMasters()
+})
 </script>
 
 <style scoped>

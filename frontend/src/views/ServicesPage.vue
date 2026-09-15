@@ -14,426 +14,44 @@
                 </p>
             </div>
         </section>
-        <main id="services" class="services">
+        <main class="services">
             <div class="container">
-                <section class="service-section">
-                    <div class="section-heading">
-                        <div class="section-number">01</div>
-                        <div>
-                            <div class="section-label">HEADMAN / CUT</div>
-                            <h2>СТРИЖКИ</h2>
+                <div v-if="store.loading" class="loading">Загрузка...</div>
+
+                <template v-else>
+                    <section
+                        v-for="(items, category, index) in store.grouped"
+                        :key="category"
+                        class="service-section"
+                    >
+                        <div class="section-heading">
+                            <div class="section-number">
+                                {{ String(index + 1).padStart(2, '0') }}
+                            </div>
+                            <div>
+                                <div class="section-label">HEADMAN / {{ category.toUpperCase() }}</div>
+                                <h2>{{ category.toUpperCase() }}</h2>
+                            </div>
                         </div>
-                    </div>
-                    <div class="service-list">
-                        <article class="service-item">
-                            <div class="service-main">
-                                <h3>Мужская стрижка</h3>
-                                <p>Классическая или современная стрижка с укладкой</p>
-                            </div>
-                            <div class="service-meta">
-                                <span>60 мин</span>
-                                <strong>1 500 ₽</strong>
-                            </div>
-                        </article>
-                        <article class="service-item">
-                            <div class="service-main">
-                                <h3>Стрижка машинкой</h3>
-                                <p>Стрижка без использования ножниц</p>
-                            </div>
-                            <div class="service-meta">
-                                <span>30 мин</span>
-                                <strong>1 000 ₽</strong>
-                            </div>
-                        </article>
-                        <article class="service-item">
-                            <div class="service-main">
-                                <h3>Детская стрижка</h3>
-                                <p>Для юных клиентов до 12 лет</p>
-                            </div>
-                            <div class="service-meta">
-                                <span>45 мин</span>
-                                <strong>1 200 ₽</strong>
-                            </div>
-                        </article>
-                        <article class="service-item">
-                            <div class="service-main">
-                                <h3>Стрижка + укладка</h3>
-                                <p>Стрижка с финальной укладкой волос</p>
-                            </div>
-                            <div class="service-meta">
-                                <span>75 мин</span>
-                                <strong>1 800 ₽</strong>
-                            </div>
-                        </article>
-                        <article class="service-item">
-                            <div class="service-main">
-                                <h3>Стрижка пенсионерам</h3>
-                                <p>Аккуратная стрижка для старшего поколения</p>
-                            </div>
-                            <div class="service-meta">
-                                <span>45 мин</span>
-                                <strong>1 000 ₽</strong>
-                            </div>
-                        </article>
-                        <article class="service-item">
-                            <div class="service-main">
-                                <h3>Бритва + стрижка</h3>
-                                <p>Комбо из стрижки и работы опасной бритвой</p>
-                            </div>
-                            <div class="service-meta">
-                                <span>90 мин</span>
-                                <strong>2 200 ₽</strong>
-                            </div>
-                        </article>
-                    </div>
-                </section>
-                <section class="service-section">
-                    <div class="section-heading">
-                        <div class="section-number">02</div>
-                        <div>
-                            <div class="section-label">HEADMAN / BEARD</div>
-                            <h2>БОРОДА И БРИТЬЁ</h2>
+
+                        <div class="service-list">
+                            <article
+                                v-for="service in items"
+                                :key="service.id"
+                                class="service-item"
+                            >
+                                <div class="service-main">
+                                    <h3>{{ service.name }}</h3>
+                                    <p>{{ service.description }}</p>
+                                </div>
+                                <div class="service-meta">
+                                    <span>{{ service.durationMinutes }} мин</span>
+                                    <strong>{{ service.price.toLocaleString('ru-RU') }} ₽</strong>
+                                </div>
+                            </article>
                         </div>
-                    </div>
-                    <div class="service-list">
-                        <article class="service-item">
-                            <div class="service-main">
-                                <h3>Стрижка бороды</h3>
-                                <p>Форма, длина и аккуратная окантовка</p>
-                            </div>
-                            <div class="service-meta">
-                                <span>30 мин</span>
-                                <strong>1 000 ₽</strong>
-                            </div>
-                        </article>
-                        <article class="service-item">
-                            <div class="service-main">
-                                <h3>Моделирование бороды</h3>
-                                <p>Создание формы под черты лица</p>
-                            </div>
-                            <div class="service-meta">
-                                <span>45 мин</span>
-                                <strong>1 200 ₽</strong>
-                            </div>
-                        </article>
-                        <article class="service-item">
-                            <div class="service-main">
-                                <h3>Королевское бритьё</h3>
-                                <p>Классическое бритьё опасной бритвой</p>
-                            </div>
-                            <div class="service-meta">
-                                <span>60 мин</span>
-                                <strong>1 500 ₽</strong>
-                            </div>
-                        </article>
-                        <article class="service-item">
-                            <div class="service-main">
-                                <h3>Бритьё головы</h3>
-                                <p>Чистое бритьё головы опасной бритвой</p>
-                            </div>
-                            <div class="service-meta">
-                                <span>45 мин</span>
-                                <strong>1 200 ₽</strong>
-                            </div>
-                        </article>
-                        <article class="service-item">
-                            <div class="service-main">
-                                <h3>Уход за бородой</h3>
-                                <p>Масла, бальзамы и профессиональный уход</p>
-                            </div>
-                            <div class="service-meta">
-                                <span>20 мин</span>
-                                <strong>800 ₽</strong>
-                            </div>
-                        </article>
-                        <article class="service-item">
-                            <div class="service-main">
-                                <h3>Окантовка бороды</h3>
-                                <p>Чёткие контуры и аккуратная форма</p>
-                            </div>
-                            <div class="service-meta">
-                                <span>15 мин</span>
-                                <strong>600 ₽</strong>
-                            </div>
-                        </article>
-                    </div>
-                </section>
-                <section class="service-section">
-                    <div class="section-heading">
-                        <div class="section-number">03</div>
-                        <div>
-                            <div class="section-label">HEADMAN / CARE</div>
-                            <h2>УКЛАДКА И УХОД</h2>
-                        </div>
-                    </div>
-                    <div class="service-list">
-                        <article class="service-item">
-                            <div class="service-main">
-                                <h3>Укладка</h3>
-                                <p>Финальная укладка с использованием профессиональных средств</p>
-                            </div>
-                            <div class="service-meta">
-                                <span>30 мин</span>
-                                <strong>800 ₽</strong>
-                            </div>
-                        </article>
-                        <article class="service-item">
-                            <div class="service-main">
-                                <h3>Укладка + тонирование</h3>
-                                <p>Укладка и лёгкое изменение оттенка волос</p>
-                            </div>
-                            <div class="service-meta">
-                                <span>60 мин</span>
-                                <strong>1 500 ₽</strong>
-                            </div>
-                        </article>
-                        <article class="service-item">
-                            <div class="service-main">
-                                <h3>Камуфляж седины</h3>
-                                <p>Естественное уменьшение видимости седых волос</p>
-                            </div>
-                            <div class="service-meta">
-                                <span>45 мин</span>
-                                <strong>1 500 ₽</strong>
-                            </div>
-                        </article>
-                        <article class="service-item">
-                            <div class="service-main">
-                                <h3>Тонирование волос</h3>
-                                <p>Коррекция и обновление оттенка волос</p>
-                            </div>
-                            <div class="service-meta">
-                                <span>60 мин</span>
-                                <strong>1 800 ₽</strong>
-                            </div>
-                        </article>
-                        <article class="service-item">
-                            <div class="service-main">
-                                <h3>Мытьё головы + уход</h3>
-                                <p>Очищение и базовый уход за волосами</p>
-                            </div>
-                            <div class="service-meta">
-                                <span>20 мин</span>
-                                <strong>500 ₽</strong>
-                            </div>
-                        </article>
-                        <article class="service-item">
-                            <div class="service-main">
-                                <h3>Маска для волос</h3>
-                                <p>Профессиональный уход и восстановление</p>
-                            </div>
-                            <div class="service-meta">
-                                <span>30 мин</span>
-                                <strong>700 ₽</strong>
-                            </div>
-                        </article>
-                    </div>
-                </section>
-                <section class="service-section">
-                    <div class="section-heading">
-                        <div class="section-number">04</div>
-                        <div>
-                            <div class="section-label">HEADMAN / EXTRA</div>
-                            <h2>ДОПОЛНИТЕЛЬНЫЕ</h2>
-                        </div>
-                    </div>
-                    <div class="service-list">
-                        <article class="service-item">
-                            <div class="service-main">
-                                <h3>Гигиенический маникюр</h3>
-                                <p>Уход за ногтями и кожей рук</p>
-                            </div>
-                            <div class="service-meta">
-                                <span>60 мин</span>
-                                <strong>1 350 ₽</strong>
-                            </div>
-                        </article>
-                        <article class="service-item">
-                            <div class="service-main">
-                                <h3>Мужской педикюр</h3>
-                                <p>Комплексный уход за стопами и ногтями</p>
-                            </div>
-                            <div class="service-meta">
-                                <span>90 мин</span>
-                                <strong>2 000 ₽</strong>
-                            </div>
-                        </article>
-                        <article class="service-item">
-                            <div class="service-main">
-                                <h3>Депиляция воском — лицо</h3>
-                                <p>Удаление нежелательных волос на лице</p>
-                            </div>
-                            <div class="service-meta">
-                                <span>30 мин</span>
-                                <strong>800 ₽</strong>
-                            </div>
-                        </article>
-                        <article class="service-item">
-                            <div class="service-main">
-                                <h3>Депиляция воском — грудь / спина</h3>
-                                <p>Удаление волос воском</p>
-                            </div>
-                            <div class="service-meta">
-                                <span>45 мин</span>
-                                <strong>1 500 ₽</strong>
-                            </div>
-                        </article>
-                        <article class="service-item">
-                            <div class="service-main">
-                                <h3>Косметическая чистка лица</h3>
-                                <p>Глубокое очищение и уход за кожей</p>
-                            </div>
-                            <div class="service-meta">
-                                <span>90 мин</span>
-                                <strong>2 500 ₽</strong>
-                            </div>
-                        </article>
-                        <article class="service-item">
-                            <div class="service-main">
-                                <h3>Массаж головы</h3>
-                                <p>Расслабляющий массаж кожи головы</p>
-                            </div>
-                            <div class="service-meta">
-                                <span>30 мин</span>
-                                <strong>1 000 ₽</strong>
-                            </div>
-                        </article>
-                    </div>
-                </section>
-                <section class="service-section combo-section">
-                    <div class="section-heading">
-                        <div class="section-number">05</div>
-                        <div>
-                            <div class="section-label">HEADMAN / COMBO</div>
-                            <h2>КОМБО-НАБОРЫ</h2>
-                        </div>
-                        <div class="discount-label">СКИДКА</div>
-                    </div>
-                    <div class="service-list">
-                        <article class="service-item combo-item">
-                            <div class="service-main">
-                                <h3>Стрижка + борода</h3>
-                                <p>Стрижка и оформление бороды</p>
-                            </div>
-                            <div class="service-meta">
-                                <span>90 мин</span>
-                                <small>−300 ₽</small>
-                                <strong>2 200 ₽</strong>
-                            </div>
-                        </article>
-                        <article class="service-item combo-item">
-                            <div class="service-main">
-                                <h3>Стрижка + бритьё</h3>
-                                <p>Стрижка и классическое бритьё</p>
-                            </div>
-                            <div class="service-meta">
-                                <span>120 мин</span>
-                                <small>−500 ₽</small>
-                                <strong>2 500 ₽</strong>
-                            </div>
-                        </article>
-                        <article class="service-item combo-item">
-                            <div class="service-main">
-                                <h3>Стрижка + борода + уход</h3>
-                                <p>Полный уход за волосами и бородой</p>
-                            </div>
-                            <div class="service-meta">
-                                <span>120 мин</span>
-                                <small>−500 ₽</small>
-                                <strong>2 800 ₽</strong>
-                            </div>
-                        </article>
-                        <article class="service-item combo-item">
-                            <div class="service-main">
-                                <h3>Полный образ</h3>
-                                <p>Стрижка + борода + маникюр</p>
-                            </div>
-                            <div class="service-meta">
-                                <span>150 мин</span>
-                                <small>−700 ₽</small>
-                                <strong>3 500 ₽</strong>
-                            </div>
-                        </article>
-                        <article class="service-item combo-item">
-                            <div class="service-main">
-                                <h3>Отец + сын</h3>
-                                <p>Две стрижки по специальной цене</p>
-                            </div>
-                            <div class="service-meta">
-                                <span>105 мин</span>
-                                <small>−300 ₽</small>
-                                <strong>2 400 ₽</strong>
-                            </div>
-                        </article>
-                    </div>
-                </section>
-                <section class="service-section vip-section">
-                    <div class="section-heading">
-                        <div class="section-number">06</div>
-                        <div>
-                            <div class="section-label">HEADMAN / PRIVATE</div>
-                            <h2>ПРЕМИУМ</h2>
-                        </div>
-                        <div class="vip-label">VIP</div>
-                    </div>
-                    <div class="service-list">
-                        <article class="service-item vip-item">
-                            <div class="service-main">
-                                <h3>Персональный стилист</h3>
-                                <p>Индивидуальный подбор образа и рекомендации</p>
-                            </div>
-                            <div class="service-meta">
-                                <span>120 мин</span>
-                                <strong>3 500 ₽</strong>
-                            </div>
-                        </article>
-                        <article class="service-item vip-item">
-                            <div class="service-main">
-                                <h3>Свадебный образ</h3>
-                                <p>Подготовка образа для жениха и гостя</p>
-                            </div>
-                            <div class="service-meta">
-                                <span>180 мин</span>
-                                <strong>5 000 ₽</strong>
-                            </div>
-                        </article>
-                        <article class="service-item vip-item">
-                            <div class="service-main">
-                                <h3>Фотосессия с укладкой</h3>
-                                <p>Профессиональная укладка для фотосессии</p>
-                            </div>
-                            <div class="service-meta">
-                                <span>120 мин</span>
-                                <strong>4 500 ₽</strong>
-                            </div>
-                        </article>
-                        <article class="service-item vip-item">
-                            <div class="service-main">
-                                <h3>Стрижка у топ-мастера</h3>
-                                <p>Работа мастера высшей категории</p>
-                            </div>
-                            <div class="service-meta">
-                                <span>60 мин</span>
-                                <strong>3 000 ₽</strong>
-                            </div>
-                        </article>
-                    </div>
-                </section>
-                <section class="services-cta">
-                    <div class="cta-decoration"></div>
-                    <div class="cta-content">
-                        <span>HEADMAN STUDIO</span>
-                        <h2>
-                            ГОТОВ К
-                            <strong>НОВОМУ ОБРАЗУ?</strong>
-                        </h2>
-                        <p>Выбери услугу и запишись к своему мастеру.</p>
-                        <a href="#" class="cta-button">
-                            <router-link to="/order"><span>ЗАПИСАТЬСЯ</span></router-link>
-                            <router-link to="/order"><span>↗</span></router-link>
-                        </a>
-                    </div>
-                </section>
+                    </section>
+                </template>
             </div>
         </main>
         <footer class="footer">
@@ -454,6 +72,14 @@
 
 <script setup>
 import Header from '@/components/Header.vue';
+import { onMounted } from 'vue';
+import { useServicesStore } from '@/stores/services';
+
+const store=useServicesStore()
+
+onMounted(()=>{
+    store.fetchServices()
+})
 </script>
 
 <style scoped>
