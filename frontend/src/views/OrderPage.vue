@@ -103,6 +103,33 @@
                     </div>
                 </div>
             </section>
+            <section class="service-choice">
+                <div class="container">
+                    <div class="section-label">
+                        <span>01</span>
+                        <p>ВЫБОР УСЛУГИ</p>
+                    </div>
+                    <div class="services-list">
+                        <div
+                            v-for="s in services"
+                            :key="s.id"
+                            class="service-option"
+                            :class="{ 'service-option--active': serviceId === s.id }"
+                            @click="serviceId = s.id"
+                        >
+                            <div class="service-option__info">
+                                <span>{{ s.category }}</span>
+                                <h3>{{ s.name }}</h3>
+                                <p>{{ s.description }}</p>
+                            </div>
+                            <div class="service-option__meta">
+                                <strong>{{ s.price.toLocaleString('ru-RU') }} ₽</strong>
+                                <small>{{ s.durationMinutes }} мин</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
             <section class="master-choice">
                 <div class="container">
                     <div class="section-label">
@@ -120,26 +147,26 @@
                         </p>
                     </div>
                     <div class="masters">
-    <div
-        v-for="master in masters"
-        :key="master.id"
-        class="master-card"
-        :class="{ 'master-card--active': masterId === master.id }"
-        @click="masterId = master.id"
-    >
-        <div class="master-card__avatar">
-            <span>{{ master.user?.firstName?.[0] }}</span>
-        </div>
-        <div class="master-card__info">
-            <span>{{ master.specialization }}</span>
-            <h3>{{ master.user?.firstName }} {{ master.user?.lastName }}</h3>
-            <p>{{ master.experienceYears }}+ лет опыта</p>
-        </div>
-        <div class="master-card__check">
-            {{ masterId === master.id ? '✓' : '+' }}
-        </div>
-    </div>
-</div>
+                    <div
+                        v-for="master in masters"
+                        :key="master.id"
+                        class="master-card"
+                        :class="{ 'master-card--active':masterId===master.id }"
+                        @click="masterId=master.id"
+                    >
+                        <div class="master-card__avatar">
+                            <span>{{ master.user?.firstName?.[0] }}</span>
+                        </div>
+                        <div class="master-card__info">
+                            <span>{{ master.specialization }}</span>
+                            <h3>{{ master.user?.firstName }} {{ master.user?.lastName }}</h3>
+                            <p>{{ master.experienceYears }}+ лет опыта</p>
+                        </div>
+                        <div class="master-card__check">
+                            {{ masterId===master.id?'✓':'+' }}
+                        </div>
+                    </div>
+                </div>
                 </div>
             </section>
             <section class="booking">
@@ -151,46 +178,31 @@
                     <div class="booking__grid">
                         <div class="booking-block">
                             <h3>ВЫБЕРИТЕ ДАТУ</h3>
-                            <div class="dates">
-                                <div class="date">
-                                    <span>ПН</span>
-                                    <strong>15</strong>
-                                    <small>СЕН</small>
-                                </div>
-                                <div class="date date--active">
-                                    <span>ВТ</span>
-                                    <strong>16</strong>
-                                    <small>СЕН</small>
-                                </div>
-                                <div class="date">
-                                    <span>СР</span>
-                                    <strong>17</strong>
-                                    <small>СЕН</small>
-                                </div>
-                                <div class="date">
-                                    <span>ЧТ</span>
-                                    <strong>18</strong>
-                                    <small>СЕН</small>
-                                </div>
-                                <div class="date">
-                                    <span>ПТ</span>
-                                    <strong>19</strong>
-                                    <small>СЕН</small>
-                                </div>
+                        <div class="dates">
+                            <div
+                                v-for="d in dates"
+                                :key="d.iso"
+                                class="date"
+                                :class="{'date--active':selectedDate===d.iso}"
+                                @click="selectedDate=d.iso"
+                            >
+                                <span>{{ d.day }}</span>
+                                <strong>{{ d.num }}</strong>
+                                <small>{{ d.month }}</small>
                             </div>
+                        </div>
                         </div>
                         <div class="booking-block">
                             <h3>ВЫБЕРИТЕ ВРЕМЯ</h3>
                             <div class="times">
-                                <button @click="appointmentTime=`${selectedDate}T10:00:00Z`">10:00</button>
-                                <button @click="appointmentTime=`${selectedDate}T11:00:00Z`">11:00</button>
-                                <button @click="appointmentTime=`${selectedDate}T12:00:00Z`" class="time--active">12:00</button>
-                                <button @click="appointmentTime=`${selectedDate}T13:30:00Z`">13:30</button>
-                                <button @click="appointmentTime=`${selectedDate}T15:00:00Z`">15:00</button>
-                                <button @click="appointmentTime=`${selectedDate}T16:30:00Z`">16:30</button>
-                                <button @click="appointmentTime=`${selectedDate}T18:00:00Z`">18:00</button>
-                                <button @click="appointmentTime=`${selectedDate}T19:30:00Z`">19:30</button>
-                                <button @click="appointmentTime=`${selectedDate}T21:00:00Z`">21:00</button>
+                                <button
+                                    v-for="t in times"
+                                    :key="t"
+                                    :class="{'time--active':appointmentTime===`${selectedDate}T${t}:00Z`}"
+                                    @click="appointmentTime=`${selectedDate}T${t}:00Z`"
+                                >
+                                    {{ t }}
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -201,33 +213,32 @@
                     <div class="order__inner">
                         <div class="order__info">
                             <span>ВАША ЗАПИСЬ</span>
-                            <h2>
-                                МУЖСКАЯ<br />
-                                <em>СТРИЖКА</em>
-                            </h2>
+                            <h2>{{ selectedService?.name?.toUpperCase() || '—' }}</h2>
                             <div class="order-details">
                                 <div>
                                     <span>МАСТЕР</span>
-                                    <strong>АЛЕКСЕЙ ВОЛКОВ</strong>
+                                    <strong>
+                                        {{ selectedMaster?.user?.firstName }} {{ selectedMaster?.user?.lastName || '—' }}
+                                    </strong>
                                 </div>
                                 <div>
                                     <span>ДАТА</span>
-                                    <strong>16 СЕНТЯБРЯ</strong>
+                                    <strong>{{ formattedDate }}</strong>
                                 </div>
                                 <div>
                                     <span>ВРЕМЯ</span>
-                                    <strong>12:00</strong>
+                                    <strong>{{ formattedTime }}</strong>
                                 </div>
                                 <div>
                                     <span>ДЛИТЕЛЬНОСТЬ</span>
-                                    <strong>60 МИН</strong>
+                                    <strong>{{ selectedService?.durationMinutes||'—' }} МИН</strong>
                                 </div>
                             </div>
                         </div>
                         <div class="order-total">
                             <span>ИТОГО</span>
-                            <strong>1 500 ₽</strong>
-                            <button @click="makeOrder()">
+                            <strong>{{ selectedService?.price?.toLocaleString('ru-RU')||'—' }} ₽</strong>
+                            <button @click="makeOrder":disabled="!canSubmit">
                                 ЗАПИСАТЬСЯ
                                 <b>→</b>
                             </button>
@@ -246,21 +257,21 @@
                         <p>ВАМ ТАКЖЕ МОЖЕТ ПОНРАВИТЬСЯ</p>
                     </div>
                     <div class="similar__grid">
-    <div
-        v-for="(s, index) in services.slice(0, 3)"
-        :key="s.id"
-        class="similar-card"
-        @click="serviceId = s.id"
-    >
-        <span>{{ String(index + 1).padStart(2, '0') }}</span>
-        <h3>{{ s.name.toUpperCase() }}</h3>
-        <div>
-            <strong>{{ s.price }} ₽</strong>
-            <small>{{ s.durationMinutes }} МИН</small>
-        </div>
-        <b>→</b>
-    </div>
-</div>
+                <div
+                    v-for="(s,index) in services.slice(0,3)"
+                    :key="s.id"
+                    class="similar-card"
+                    @click="serviceId=s.id"
+                    >
+                        <span>{{String(index+1).padStart(2,'0')}}</span>
+                        <h3>{{s.name.toUpperCase()}}</h3>
+                        <div>
+                            <strong>{{s.price}} ₽</strong>
+                            <small>{{s.durationMinutes}} МИН</small>
+                        </div>
+                        <b>→</b>
+                    </div>
+                </div>
                 </div>
             </section>
         </main>
@@ -279,14 +290,49 @@ import Header from '@/components/Header.vue'
 import { orderApi } from '@/api/order';
 import { mastersApi } from '@/api/masters';
 import { servicesApi } from '@/api/services';
-import {ref,onMounted} from 'vue'
+import {ref,onMounted,computed} from 'vue'
 
 const serviceId=ref<string|null>(null)
 const masterId=ref<string|null>(null)
 const appointmentTime=ref<string|null>(null)
 const masters=ref<any[]>([])
 const services=ref<any[]>([])
-const selectedDate=ref('2026-09-20')
+
+const dates=computed(()=>{
+    const today=new Date()
+    return Array.from({length:5}).map((_,i)=>{
+        const d=new Date(today)
+        d.setDate(today.getDate()+i)
+        return{
+            iso:d.toISOString().slice(0,10),
+            day:d.toLocaleDateString('ru-RU',{weekday:'short'}).toUpperCase(),
+            num:d.getDate(),
+            month:d.toLocaleDateString('ru-RU',{month:'short'}).toUpperCase()
+        }
+    })
+})
+
+const times=['10:00','11:00','12:00','13:30','15:00','16:30','18:00','19:30','21:00']
+const selectedDate=ref(dates.value[0]!.iso)
+
+const selectedMaster=computed(()=>{
+    return masters.value.find((m)=>m.id===masterId.value)||null
+})
+const selectedService=computed(()=>{
+    return services.value.find((m)=>m.id===serviceId.value)||null
+})
+
+const formattedDate=computed(()=>{
+    if(!selectedDate.value)return '-'
+    return new Date(selectedDate.value)
+        .toLocaleDateString('ru-RU',{day:'numeric',month:'long'})
+        .toUpperCase()
+})
+
+const formattedTime=computed(()=>{
+    if(!appointmentTime.value)return '-'
+    return appointmentTime.value.slice(11,16)
+})
 
 const makeOrder=async()=>{
     try{
@@ -302,12 +348,15 @@ const makeOrder=async()=>{
     }
 }
 
-onMounted(async () => {
-    const { data: m } = await mastersApi.getAll()
-    const { data: s } = await servicesApi.getAll()
-    masters.value = m
-    services.value = s
-    if (s.length > 0) serviceId.value = s[0].id
+const canSubmit=computed(()=>{
+    return !!serviceId.value&&!!masterId.value&&!!appointmentTime.value
+})
+
+onMounted(async()=>{
+    const {data:m}=await mastersApi.getAll()
+    const {data:s}=await servicesApi.getAll()
+    masters.value=m
+    services.value=s
 })
 </script>
 
@@ -367,6 +416,62 @@ onMounted(async () => {
     font-size:clamp(75px,10vw,150px);
     line-height:.78;
     letter-spacing:-4px;
+}
+.service-choice{
+    padding:130px 0;
+}
+.services-list{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+.service-option{
+    display:flex;
+    justify-content:space-between;
+    gap:30px;
+    padding:30px;
+    border:1px solid rgba(220,185,116,.2);
+    background:#1c1913;
+    cursor:pointer;
+    transition:.3s ease;
+}
+.service-option:hover,
+.service-option--active{
+    border-color:#dcb974;
+    background:rgba(220,185,116,.04);
+}
+.service-option__info>span{
+    color:#dcb974;
+    font-size:8px;
+    font-weight:700;
+    letter-spacing:2px;
+}
+.service-option__info h3{
+    margin:10px 0;
+    font-family:'Big Shoulders Display',sans-serif;
+    font-size:25px;
+}
+.service-option__info p{
+    margin:0;
+    color:rgba(242,234,217,.45);
+    font-size:11px;
+    line-height:1.6;
+}
+.service-option__meta{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    gap:8px;
+    flex-shrink:0;
+}
+.service-option__meta strong{
+    color:#dcb974;
+    font-family:'Big Shoulders Display',sans-serif;
+    font-size:28px;
+}
+.service-option__meta small{
+    color:rgba(242,234,217,.4);
+    font-size:10px;
 }
 .service-hero h1 em{
     color:#dcb974;

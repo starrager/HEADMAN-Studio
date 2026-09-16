@@ -3,7 +3,9 @@ import prisma from '../prisma'
 
 export const getMasters=async(req:Request,res:Response)=>{
     try{
-        const masters=await prisma.master.findMany()
+        const masters=await prisma.master.findMany({
+        
+        })
         
         if(!masters)return res.status(500).json({error:'masters not found'})
 
