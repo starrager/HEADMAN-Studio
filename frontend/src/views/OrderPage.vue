@@ -120,40 +120,26 @@
                         </p>
                     </div>
                     <div class="masters">
-                        <div class="master-card master-card--active">
-                            <div class="master-card__avatar">
-                                <span>А</span>
-                            </div>
-                            <div class="master-card__info">
-                                <span>ТОП-МАСТЕР</span>
-                                <h3>АЛЕКСЕЙ ВОЛКОВ</h3>
-                                <p>8+ лет опыта</p>
-                            </div>
-                            <div class="master-card__check">✓</div>
-                        </div>
-                        <div class="master-card">
-                            <div class="master-card__avatar">
-                                <span>М</span>
-                            </div>
-                            <div class="master-card__info">
-                                <span>СТАРШИЙ МАСТЕР</span>
-                                <h3>МАКСИМ ОРЛОВ</h3>
-                                <p>6+ лет опыта</p>
-                            </div>
-                            <div class="master-card__check">+</div>
-                        </div>
-                        <div class="master-card">
-                            <div class="master-card__avatar">
-                                <span>Д</span>
-                            </div>
-                            <div class="master-card__info">
-                                <span>МАСТЕР</span>
-                                <h3>ДМИТРИЙ СМИРНОВ</h3>
-                                <p>4+ года опыта</p>
-                            </div>
-                            <div class="master-card__check">+</div>
-                        </div>
-                    </div>
+    <div
+        v-for="master in masters"
+        :key="master.id"
+        class="master-card"
+        :class="{ 'master-card--active': masterId === master.id }"
+        @click="masterId = master.id"
+    >
+        <div class="master-card__avatar">
+            <span>{{ master.user?.firstName?.[0] }}</span>
+        </div>
+        <div class="master-card__info">
+            <span>{{ master.specialization }}</span>
+            <h3>{{ master.user?.firstName }} {{ master.user?.lastName }}</h3>
+            <p>{{ master.experienceYears }}+ лет опыта</p>
+        </div>
+        <div class="master-card__check">
+            {{ masterId === master.id ? '✓' : '+' }}
+        </div>
+    </div>
+</div>
                 </div>
             </section>
             <section class="booking">
@@ -196,15 +182,15 @@
                         <div class="booking-block">
                             <h3>ВЫБЕРИТЕ ВРЕМЯ</h3>
                             <div class="times">
-                                <button>10:00</button>
-                                <button>11:00</button>
-                                <button class="time--active">12:00</button>
-                                <button>13:30</button>
-                                <button>15:00</button>
-                                <button>16:30</button>
-                                <button>18:00</button>
-                                <button>19:30</button>
-                                <button>21:00</button>
+                                <button @click="appointmentTime=`${selectedDate}T10:00:00Z`">10:00</button>
+                                <button @click="appointmentTime=`${selectedDate}T11:00:00Z`">11:00</button>
+                                <button @click="appointmentTime=`${selectedDate}T12:00:00Z`" class="time--active">12:00</button>
+                                <button @click="appointmentTime=`${selectedDate}T13:30:00Z`">13:30</button>
+                                <button @click="appointmentTime=`${selectedDate}T15:00:00Z`">15:00</button>
+                                <button @click="appointmentTime=`${selectedDate}T16:30:00Z`">16:30</button>
+                                <button @click="appointmentTime=`${selectedDate}T18:00:00Z`">18:00</button>
+                                <button @click="appointmentTime=`${selectedDate}T19:30:00Z`">19:30</button>
+                                <button @click="appointmentTime=`${selectedDate}T21:00:00Z`">21:00</button>
                             </div>
                         </div>
                     </div>
@@ -241,7 +227,7 @@
                         <div class="order-total">
                             <span>ИТОГО</span>
                             <strong>1 500 ₽</strong>
-                            <button>
+                            <button @click="makeOrder()">
                                 ЗАПИСАТЬСЯ
                                 <b>→</b>
                             </button>
@@ -260,34 +246,21 @@
                         <p>ВАМ ТАКЖЕ МОЖЕТ ПОНРАВИТЬСЯ</p>
                     </div>
                     <div class="similar__grid">
-                        <div class="similar-card">
-                            <span>01</span>
-                            <h3>СТРИЖКА + БОРОДА</h3>
-                            <div>
-                                <strong>2 200 ₽</strong>
-                                <small>90 МИН</small>
-                            </div>
-                            <b>→</b>
-                        </div>
-                        <div class="similar-card">
-                            <span>02</span>
-                            <h3>СТРИЖКА + УКЛАДКА</h3>
-                            <div>
-                                <strong>1 800 ₽</strong>
-                                <small>75 МИН</small>
-                            </div>
-                            <b>→</b>
-                        </div>
-                        <div class="similar-card">
-                            <span>03</span>
-                            <h3>СТРИЖКА ПЕНСИОНЕРАМ</h3>
-                            <div>
-                                <strong>1 000 ₽</strong>
-                                <small>45 МИН</small>
-                            </div>
-                            <b>→</b>
-                        </div>
-                    </div>
+    <div
+        v-for="(s, index) in services.slice(0, 3)"
+        :key="s.id"
+        class="similar-card"
+        @click="serviceId = s.id"
+    >
+        <span>{{ String(index + 1).padStart(2, '0') }}</span>
+        <h3>{{ s.name.toUpperCase() }}</h3>
+        <div>
+            <strong>{{ s.price }} ₽</strong>
+            <small>{{ s.durationMinutes }} МИН</small>
+        </div>
+        <b>→</b>
+    </div>
+</div>
                 </div>
             </section>
         </main>
@@ -301,8 +274,41 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import Header from '@/components/Header.vue'
+import { orderApi } from '@/api/order';
+import { mastersApi } from '@/api/masters';
+import { servicesApi } from '@/api/services';
+import {ref,onMounted} from 'vue'
+
+const serviceId=ref<string|null>(null)
+const masterId=ref<string|null>(null)
+const appointmentTime=ref<string|null>(null)
+const masters=ref<any[]>([])
+const services=ref<any[]>([])
+const selectedDate=ref('2026-09-20')
+
+const makeOrder=async()=>{
+    try{
+        const response=await orderApi.makeOrder({
+            serviceId:serviceId.value!,
+            masterId:masterId.value!,
+            appointmentTime:appointmentTime.value!
+        })
+
+        alert('запись создана')
+    }catch(error){
+        console.error(error)
+    }
+}
+
+onMounted(async () => {
+    const { data: m } = await mastersApi.getAll()
+    const { data: s } = await servicesApi.getAll()
+    masters.value = m
+    services.value = s
+    if (s.length > 0) serviceId.value = s[0].id
+})
 </script>
 
 <style scoped>
