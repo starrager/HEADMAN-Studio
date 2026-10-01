@@ -23,6 +23,12 @@ export const register=async(req:Request,res:Response)=>{
             }
         })
 
+        const token=jwt.sign(
+            {userId:user.id,role:user.role},
+            process.env.JWT_SECRET!,
+            {expiresIn:'7d'}
+        )
+
         const {passwordHash:_,...userWithoutHash}=user
 
         res.status(201).json(userWithoutHash)
@@ -49,7 +55,7 @@ export const login=async(req:Request,res:Response)=>{
             {expiresIn:'7d'}
         )
 
-        res.json({token,existingUser})
+        res.json({token,user:existingUser})
     }catch(error){
         console.error(error)
         return res.status(500).json({error:'login error'})

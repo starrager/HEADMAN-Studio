@@ -4,7 +4,8 @@ import jwt from 'jsonwebtoken'
 declare global{
     namespace Express{
         interface Request{
-            userId?:string
+            userId?:string,
+            role?:string
         }
     }
 }
@@ -15,6 +16,7 @@ export const middleware=(req:Request,res:Response,next:NextFunction)=>{
         if(!token)return res.status(401).json({error:'токен не предоставлен'})
         const decoded=jwt.verify(token,process.env.JWT_SECRET||'my-secret-key')as{userId:string}
         req.userId=decoded.userId
+        req.role=decoded.role
         next()
     }catch(error){return res.status(401).json({error:'недействительный токен'})}
 }
