@@ -7,5 +7,6 @@ export interface OrderData{
 }
 
 export const orderApi={
-    makeOrder:(data:OrderData)=>api.post('/order',data),
+    makeOrder:(data:OrderData)=>api.post('/appointments',data),
+    getOrders:()=>api.get('/appointments/master')
 }

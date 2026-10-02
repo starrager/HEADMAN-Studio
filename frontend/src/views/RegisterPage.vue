@@ -21,7 +21,7 @@
                         к мастерам ещё быстрее.
                     </p>
                 </div>
-                <form class="auth-form" @submit.prevent="register()">
+                <form class="auth-form" @submit.prevent="register">
                     <div class="field">
                         <label for="firstName">Имя</label>
                         <input id="firstName" type="text" v-model="firstName" placeholder="Ваше имя" />

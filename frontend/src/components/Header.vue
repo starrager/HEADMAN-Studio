@@ -16,25 +16,22 @@
             </nav>
             <div class="header__actions">
                 <router-link v-if="!auth" to="/login" class="btn btn--outline">Войти</router-link>
-                <button class="profile-btn" aria-label="Профиль">
+                <button class="profile-btn" aria-label="Профиль" @click="router.push('/profile')">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                         <circle cx="12" cy="8" r="4" />
                         <path d="M4 21c0-4.2 3.6-7 8-7s8 2.8 8 7" />
                     </svg>
                 </button>
             </div>
-            <button class="mobile-menu" aria-label="Открыть меню">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
         </div>
     </header>
 </template>
 
 <script setup>
 import {ref,onMounted} from 'vue'
+import { useRouter } from 'vue-router'
 
+const router=useRouter()
 const auth=ref(false)
 
 const checkAuth=()=>{

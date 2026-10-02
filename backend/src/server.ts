@@ -15,7 +15,7 @@ import orderRoutes from './routes/order.routes'
 app.use('/auth',authRoutes)
 app.use('/services',servicesRoutes)
 app.use('/masters',mastersRoutes)
-app.use('/order',orderRoutes)
+app.use('/appointments',orderRoutes)
 
 app.listen(PORT,()=>{
     console.log(`THE SERVER IS RUNNING ON http://localhost:${PORT}`)

@@ -21,7 +21,7 @@
                         чтобы продолжить.
                     </p>
                 </div>
-                <form class="auth-form" @submit.prevent="login()"">
+                <form class="auth-form" @submit.prevent="login">
                     <div class="field">
                         <label for="email">Электронная почта</label>
                         <input id="email" type="text" v-model="email" placeholder="your@email.com" />

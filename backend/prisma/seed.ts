@@ -34,6 +34,15 @@ async function seedMasters(){
             experienceYears:4,
             bio:'Эксперт по работе с бородой и классическому бритью.',
         },
+        {
+            email:'zxc123@gmail.com',
+            firstName:'Василий',
+            lastName:'Пупкин',
+            phone:'+79991111111',
+            specialization:'ТОП-МАСТЕР',
+            experienceYears:8,
+            bio:'Специализируюсь на классических и современных мужских стрижках.',
+        }
     ]
 
     for(const data of mastersData){
