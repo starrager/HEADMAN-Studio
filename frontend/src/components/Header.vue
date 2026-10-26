@@ -12,6 +12,7 @@
                 <router-link to="/aboutus" class="nav__link">О нас</router-link>
                 <router-link to="/contacts" class="nav__link">Контакты</router-link>
                 <router-link v-if="auth" to="/profile" class="nav__link">Профиль</router-link>
+                <router-link v-if="master" to="/master" class="nav__link">Расписание</router-link>
                 <a v-if="auth" @click="logout" class="nav__link--exit">Выйти</a>
             </nav>
             <div class="header__actions">
@@ -33,9 +34,15 @@ import { useRouter } from 'vue-router'
 
 const router=useRouter()
 const auth=ref(false)
+const master=ref(false)
 
 const checkAuth=()=>{
     auth.value=!!localStorage.getItem('token')
+}
+
+const checkMaster=()=>{
+    const user=JSON.parse(localStorage.getItem('user'||'{}'))
+    master.value=user.role==='MASTER'
 }
 
 const logout=()=>{
@@ -46,6 +53,7 @@ const logout=()=>{
 
 onMounted(()=>{
     checkAuth()
+    checkMaster()
 })
 </script>
 
